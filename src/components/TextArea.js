@@ -1,12 +1,12 @@
 import React from "react";
 import useDraggable from "../hooks/useDraggable";
 
-const TextArea = ({ id, label }) => {
+const TextArea = ({ elementInfo }) => {
   const { ref, isDragging } = useDraggable("TEXTAREA");
 
   return (
     <div
-      id={id}
+      id={elementInfo.id}
       className="w-100 element"
       ref={ref}
       style={{
@@ -17,7 +17,7 @@ const TextArea = ({ id, label }) => {
         borderRadius: "4px",
       }}
     >
-      <label className="form-label">{label}</label>
+      <label className="form-label">{elementInfo.label}</label>
       <textarea
         className="form-control"
         rows="1"

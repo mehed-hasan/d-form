@@ -1,16 +1,16 @@
 import React, { useContext } from "react";
 import useDraggable from "../hooks/useDraggable";
-import { IdContext } from "../App"; // Correct import path
+import { IdContext, TargetedContext } from "../App"; // Correct import path
 
 
-const Input = ({id,label,type}) => {
-    const { globalId, setGlobalId } = useContext(IdContext);
+const Input = ({ elementInfo }) => {
+  const { targetedElement, setTargetedElement } = useContext(TargetedContext);
 
   const { ref, isDragging } = useDraggable("INPUT");
 
   return (
     <div
-      id={id}
+      id={elementInfo.id}
       className="w-100 element"
       ref={ref}
       style={{
@@ -22,12 +22,12 @@ const Input = ({id,label,type}) => {
       }}
     >
       <label className="form-label d-flex justify-content-between">
-        <span>{label} </span>
+        <span>{elementInfo.label} </span>
         <div className="d-flex gap-2">
           {/* type="button" data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" */}
           <button
-            onClick={() => setGlobalId(id)}
+            onClick={() => setTargetedElement(elementInfo)}
             className="btn btn-secondary btn-sm"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasRight"

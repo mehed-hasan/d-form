@@ -1,12 +1,12 @@
 import React from "react";
 import useDraggable from "../hooks/useDraggable";
 
-const SelectBox = ({ id, label }) => {
+const SelectBox = ({ elementInfo }) => {
   const { ref, isDragging } = useDraggable("SELECT");
 
   return (
     <div
-      id={id}
+      id={elementInfo.id}
       className="w-100 element"
       ref={ref}
       style={{
@@ -17,7 +17,7 @@ const SelectBox = ({ id, label }) => {
         borderRadius: "4px",
       }}
     >
-      <label className="form-label">{label}</label>
+      <label className="form-label">{elementInfo.label}</label>
       <select class="form-select" aria-label="Default select example">
         <option selected>Open this select menu</option>
         <option value="1">One</option>

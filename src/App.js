@@ -14,15 +14,15 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
-export const IdContext = createContext({
-  globalId: null,
-  setGlobalId: () => {},
+export const TargetedContext = createContext({
+  targetedElement: null,
+  setTargetedElement: () => {},
 });
 
 const App = () => {
-  const [globalId, setGlobalId] = useState(null);
+  const [targetedElement, setTargetedElement] = useState(null);
   return (
-    <IdContext.Provider value={{ globalId, setGlobalId }}>
+    <TargetedContext.Provider value={{ targetedElement, setTargetedElement }}>
       <Router>
         <DndProvider backend={HTML5Backend}>
           <div className="container-fluid mt-3 w-75">
@@ -55,7 +55,7 @@ const App = () => {
           </div>
         </DndProvider>
       </Router>
-    </IdContext.Provider>
+    </TargetedContext.Provider>
   );
 };
 

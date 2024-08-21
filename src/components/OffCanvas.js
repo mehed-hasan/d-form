@@ -1,13 +1,16 @@
 import React, { useContext } from "react";
-import { IdContext } from "../App"; // Correct import path
+import { TargetedContext } from "../App"; // Correct import path
 
 const OffCanvas = ({ formData, setFormData }) => {
   // Access the context
-  const { globalId } = useContext(IdContext);
+  const { targetedElement } = useContext(TargetedContext);
 
-  console.log("canvas", globalId); // Use a comma for better logging
-
+  console.log("canvas", targetedElement); // Use a comma for better logging
   console.log(formData);
+
+  // const updateLabel  = () =>{
+  //   formData
+  // }
 
   return (
     <div
@@ -31,7 +34,7 @@ const OffCanvas = ({ formData, setFormData }) => {
           type="text"
           id="editInput" // Add an id for better accessibility and referencing
           value={formData?.label || ""} // Example of controlled input (assuming formData has a 'label' property)
-          onChange={(e) => setFormData({ ...formData, label: e.target.value })} // Example of handling changes
+          // onChange={(e) => updateLabel()} // Example of handling changes
         />
       </div>
     </div>

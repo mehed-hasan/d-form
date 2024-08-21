@@ -20,46 +20,31 @@ const Column = ({index, elementInfo, onDrop }) => {
       case "INPUT":
         return (
           <Input
-            label={elementInfo.label}
-            type={elementInfo.type}
-            isRequired={elementInfo.isRequired}
-            id={elementInfo.id}
+            elementInfo={elementInfo}
           />
         );
       case "TEXTAREA":
         return (
           <TextArea
-            label={elementInfo.label}
-            type={elementInfo.type}
-            isRequired={elementInfo.isRequired}
-            id={elementInfo.id}
+            elementInfo={elementInfo}
           />
         );
       case "FILE":
         return (
           <FileInput
-            label={elementInfo.label}
-            type={elementInfo.type}
-            isRequired={elementInfo.isRequired}
-            id={elementInfo.id}
+            elementInfo={elementInfo}
           />
         );
       case "SELECT":
         return (
           <SelectBox
-            label={elementInfo.label}
-            type={elementInfo.type}
-            isRequired={elementInfo.isRequired}
-            id={elementInfo.id}
+            elementInfo={elementInfo}
           />
         );
       case "RADIO":
         return (
           <RadioButton
-            label={elementInfo.label}
-            type={elementInfo.type}
-            isRequired={elementInfo.isRequired}
-            id={elementInfo.id}
+            elementInfo={elementInfo}
           />
         );
       default:

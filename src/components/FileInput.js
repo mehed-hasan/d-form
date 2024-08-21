@@ -1,12 +1,12 @@
 import React from "react";
 import useDraggable from "../hooks/useDraggable";
 
-const FileInput = ({ id, label }) => {
+const FileInput = ({ elementInfo }) => {
   const { ref, isDragging } = useDraggable("FILE");
 
   return (
     <div
-      id={id}
+      id={elementInfo.id}
       className="w-100 element"
       ref={ref}
       style={{
@@ -17,7 +17,7 @@ const FileInput = ({ id, label }) => {
         borderRadius: "4px",
       }}
     >
-      <label className="form-label">{label}</label>
+      <label className="form-label">{elementInfo.label}</label>
       <input type="file" className="form-control" />
     </div>
   );
