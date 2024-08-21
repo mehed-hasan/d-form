@@ -1,6 +1,6 @@
 // src/App.js
 
-import React from "react";
+import React, { createContext, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -14,41 +14,48 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { ToastContainer } from "react-toastify";
+export const IdContext = createContext({
+  globalId: null,
+  setGlobalId: () => {},
+});
 
 const App = () => {
+  const [globalId, setGlobalId] = useState(null);
   return (
-    <Router>
-      <DndProvider backend={HTML5Backend}>
-        <div className="container-fluid mt-3 w-75">
-          <nav className="mb-4 w-100 mx-auto alert alert-dark">
-            <div style={{ width: "fit-content" }} className="d-flex mx-auto">
-              <h3 className="me-3">Form Builder</h3>
-              <NavLink
-                to="/"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-dark mx-2" : "btn btn-secondary mx-2"
-                }
-              >
-                 Builder
-              </NavLink>
-              <NavLink
-                to="/preview"
-                className={({ isActive }) =>
-                  isActive ? "btn btn-dark mx-2" : "btn btn-secondary mx-2"
-                }
-              >
-                Preview
-              </NavLink>
-            </div>
-          </nav>
-          <Routes>
-            <Route path="/" element={<FormBuilder />} />
-            <Route path="/preview" element={<Preview />} />
-          </Routes>
-          <ToastContainer autoClose={500} />
-        </div>
-      </DndProvider>
-    </Router>
+    <IdContext.Provider value={{ globalId, setGlobalId }}>
+      <Router>
+        <DndProvider backend={HTML5Backend}>
+          <div className="container-fluid mt-3 w-75">
+            <nav className="mb-4 w-100 mx-auto alert alert-dark">
+              <div style={{ width: "fit-content" }} className="d-flex mx-auto">
+                <h3 className="me-3">Form Builder</h3>
+                <NavLink
+                  to="/"
+                  className={({ isActive }) =>
+                    isActive ? "btn btn-dark mx-2" : "btn btn-secondary mx-2"
+                  }
+                >
+                  Builder
+                </NavLink>
+                <NavLink
+                  to="/preview"
+                  className={({ isActive }) =>
+                    isActive ? "btn btn-dark mx-2" : "btn btn-secondary mx-2"
+                  }
+                >
+                  Preview
+                </NavLink>
+              </div>
+            </nav>
+            <Routes>
+              <Route path="/" element={<FormBuilder />} />
+              <Route path="/preview" element={<Preview />} />
+            </Routes>
+            <ToastContainer autoClose={500} />
+          </div>
+        </DndProvider>
+      </Router>
+    </IdContext.Provider>
   );
 };
 

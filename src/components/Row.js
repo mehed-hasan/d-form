@@ -24,7 +24,7 @@ const Row = ({
   }, [columns]);
 
   const [{ isOver }, drop] = useDrop({
-    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT"],
+    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT","RADIO","CHECK"],
     drop: (item, monitor) => {
       const clientOffset = monitor.getClientOffset();
       if (clientOffset && rowRef.current) {

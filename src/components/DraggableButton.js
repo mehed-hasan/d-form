@@ -7,7 +7,7 @@ const DraggableButton = ({ svg, type, label }) => {
   return (
     <button
       ref={ref}
-      className="btn btn-outline-secondary mb-3"
+      className="btn btn-outline-secondary mb-2 w-100 justify-content-center  d-flex"
       style={{
         opacity: isDragging ? 0.5 : 1,
         cursor: "move",

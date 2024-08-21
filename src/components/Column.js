@@ -4,10 +4,11 @@ import Input from "./Input";
 import TextArea from "./TextArea";
 import FileInput from "./FileInput";
 import SelectBox from "./SelectBox";
+import RadioButton from "./RadioButton";
 
 const Column = ({index, elementInfo, onDrop }) => {
   const [{ isOver }, drop] = useDrop({
-    accept: ["INPUT", "TEXTAREA", "FILE","SELECT"],
+    accept: ["INPUT", "TEXTAREA", "FILE","SELECT","RADIO","CHECK"],
     drop: (item) => onDrop(item, index),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -20,6 +21,7 @@ const Column = ({index, elementInfo, onDrop }) => {
         return (
           <Input
             label={elementInfo.label}
+            type={elementInfo.type}
             isRequired={elementInfo.isRequired}
             id={elementInfo.id}
           />
@@ -28,6 +30,7 @@ const Column = ({index, elementInfo, onDrop }) => {
         return (
           <TextArea
             label={elementInfo.label}
+            type={elementInfo.type}
             isRequired={elementInfo.isRequired}
             id={elementInfo.id}
           />
@@ -36,6 +39,7 @@ const Column = ({index, elementInfo, onDrop }) => {
         return (
           <FileInput
             label={elementInfo.label}
+            type={elementInfo.type}
             isRequired={elementInfo.isRequired}
             id={elementInfo.id}
           />
@@ -44,6 +48,16 @@ const Column = ({index, elementInfo, onDrop }) => {
         return (
           <SelectBox
             label={elementInfo.label}
+            type={elementInfo.type}
+            isRequired={elementInfo.isRequired}
+            id={elementInfo.id}
+          />
+        );
+      case "RADIO":
+        return (
+          <RadioButton
+            label={elementInfo.label}
+            type={elementInfo.type}
             isRequired={elementInfo.isRequired}
             id={elementInfo.id}
           />

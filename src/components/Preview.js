@@ -1,4 +1,5 @@
 import React from "react";
+import RadioButton from "./RadioButton";
 
 const Preview = () => {
   const formData = JSON.parse(localStorage.getItem("formData") || "[]");
@@ -72,6 +73,19 @@ const Preview = () => {
                       <option disabled>No options available</option>
                     )}
                   </select>
+                </>
+              )}
+
+              {/* Render RADIO type */}
+              {col.elementInfo.type === "RADIO" && (
+                <>
+                  <label className="form-label">{col.elementInfo.label}</label>
+                  <input type="radio"
+                    name={col.elementInfo.name} // Pass the radio group name
+                    options={col.elementInfo.options || []}
+                    value={col.elementInfo.selectedValue} // Pass the selected value
+                    onChange={(e) => console.log(e.target.value)} // Handle the change event
+                  />
                 </>
               )}
             </div>
