@@ -1,0 +1,77 @@
+/* Row.css */
+.row-container {
+  position: relative; /* Position relative to position child absolutely */
+  margin-bottom: 1rem; /* Space between rows */
+}
+
+.add-column-button {
+  right: 0; /* Align to the right side */
+  top: 0; /* Align to the top of the row */
+  margin: 2px; /* Optional: adjust spacing from edges */
+  width: fit-content;
+  right: -200px;
+  position: absolute;
+}
+/* Ensure the row container handles overflow properly */
+.row-container {
+  margin-bottom: 1rem;
+}
+
+/* Ensure columns are properly sized */
+.col {
+  flex: 1; /* Allow columns to grow and shrink as needed */
+}
+
+.column-container {
+  position: relative;
+  box-sizing: border-box;
+}
+
+.column-container .resizable-handle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #000;
+  cursor: ns-resize;
+}
+
+.resize-handle {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 10px;
+  height: 100%;
+  cursor: col-resize;
+  background-color: #ccc;
+  transition: .2s;
+  -webkit-transition: .2s;
+  -moz-transition: .2s;
+  -ms-transition: .2s;
+  -o-transition: .2s;
+}
+.resize-handle:hover {
+  background-color:"#6c757dc";
+}
+
+.column {
+  position: relative;
+  min-height: 150px;
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+textarea{
+  resize: none !important;
+}
+.element{
+  transition: .2s;
+  -webkit-transition: .2s;
+  -moz-transition: .2s;
+  -ms-transition: .2s;
+  -o-transition: .2s;
+}
+.element:hover{
+  background-color: #6c757d !important;
+  color: white;
+}
