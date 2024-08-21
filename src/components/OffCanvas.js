@@ -7,10 +7,11 @@ const OffCanvas = ({ formData, setFormData }) => {
 
   console.log("canvas", targetedElement); // Use a comma for better logging
   console.log(formData);
+  const updateLabel = () =>{
+    console.log("Sdsd");
+    
+  }
 
-  // const updateLabel  = () =>{
-  //   formData
-  // }
 
   return (
     <div
@@ -29,16 +30,17 @@ const OffCanvas = ({ formData, setFormData }) => {
         ></button>
       </div>
       <div className="offcanvas-body">
-        <label htmlFor="editInput">Edit Label</label>
-        <input
+        <label>Edit Label</label>
+        {/* <input
           type="text"
-          id="editInput" // Add an id for better accessibility and referencing
-          value={formData?.label || ""} // Example of controlled input (assuming formData has a 'label' property)
-          // onChange={(e) => updateLabel()} // Example of handling changes
-        />
+          value={`${targetedElement?.label}`} // Example of controlled input (assuming formData has a 'label' property)
+          onChange={(e) => updateLabel()} // Example of handling changes
+        /> */}
       </div>
     </div>
   );
+
+  
 };
 
 export default OffCanvas;
