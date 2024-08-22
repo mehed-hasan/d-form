@@ -140,8 +140,8 @@ const OffCanvas = ({ formData, setFormData }) => {
         {actionType === "delete" && (
           <div className="alert alert-danger" role="alert">
             Are you sure you want to delete this element?
-            <button className="btn btn-danger mt-2" onClick={handleDelete}>
-              Delete
+            <button className="btn btn-danger mt-4 form-control" onClick={handleDelete}>
+              Yes, Delete It
             </button>
           </div>
         )}
