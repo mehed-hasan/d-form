@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // Import Bootstrap's JavaScript
-import 'bootstrap/dist/js/bootstrap.bundle.min';
 import OffCanvas from "./OffCanvas";
 
 const FormBuilder = () => {

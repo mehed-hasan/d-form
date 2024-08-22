@@ -75,3 +75,6 @@ textarea{
   background-color: #6c757d !important;
   color: white;
 }
+.draggable-button {
+  z-index: 1050; /* Ensure this is higher than other elements */
+}

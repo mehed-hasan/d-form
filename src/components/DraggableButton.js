@@ -7,13 +7,13 @@ const DraggableButton = ({ svg, type, label }) => {
   return (
     <button
       ref={ref}
-      className="btn btn-outline-secondary mb-2 w-100 justify-content-center  d-flex"
+      className="btn btn-outline-secondary mb-2 w-100 justify-content-center  d-flex draggable-button"
       style={{
         opacity: isDragging ? 0.5 : 1,
         cursor: "move",
       }}
     >
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 w-100 justify-content-center">
         <div dangerouslySetInnerHTML={{ __html: svg }} />
         <span>{label}</span>
       </div>

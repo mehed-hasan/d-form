@@ -11,7 +11,7 @@ import FormBuilder from "./components/FormBuilder";
 import Preview from "./components/Preview";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./App.css";
 import { ToastContainer } from "react-toastify";
 export const TargetedContext = createContext({
@@ -24,6 +24,7 @@ const App = () => {
   return (
     <TargetedContext.Provider value={{ targetedElement, setTargetedElement }}>
       <Router>
+
         <DndProvider backend={HTML5Backend}>
           <div className="container-fluid mt-3 w-75">
             <nav className="mb-4 w-100 mx-auto alert alert-dark">

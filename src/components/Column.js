@@ -57,7 +57,7 @@ const Column = ({index, elementInfo, onDrop }) => {
       ref={drop}
       className="border  d-flex flex-column justify-content-center p-2"
       style={{
-        minHeight: "100px",
+        minHeight: "110px",
         backgroundColor: isOver ? "lightgreen" : "white",
         position: "relative",
         boxSizing: "border-box",

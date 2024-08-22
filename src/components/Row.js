@@ -43,6 +43,7 @@ const Row = ({
   });
 
   const handleDrop = (item, index) => {
+
     const newColumns = [...columns];
     newColumns[index] = {
       ...newColumns[index],
