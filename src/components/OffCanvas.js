@@ -51,14 +51,35 @@ const OffCanvas = ({ formData, setFormData }) => {
 
       if (
         targetedElementInfo.type === "SELECT" ||
-        targetedElementInfo.type === "RADIO"  ||
+        targetedElementInfo.type === "RADIO" ||
         targetedElementInfo.type === "CHECK"
       ) {
         const newOptions = targetedElementInfo.options.map((opt, i) =>
           i === index ? { ...opt, label: value } : opt
         );
         updatedElement = { ...targetedElementInfo, options: newOptions };
-      } 
+      }
+
+      const updatedFormData = formData.map((row) => ({
+        ...row,
+        cols: row.cols.map((col) =>
+          col.elementInfo?.id === targetedElementInfo.id
+            ? { ...col, elementInfo: updatedElement }
+            : col
+        ),
+      }));
+
+      setFormData(updatedFormData);
+      setTargetedElement({ elementInfo: updatedElement, action: "edit" });
+    }
+  };
+
+  const handleOptionRemove = (index) => {
+    if (actionType === "edit" && targetedElementInfo) {
+      const newOptions = targetedElementInfo.options.filter(
+        (_, i) => i !== index
+      );
+      const updatedElement = { ...targetedElementInfo, options: newOptions };
 
       const updatedFormData = formData.map((row) => ({
         ...row,
@@ -132,7 +153,7 @@ const OffCanvas = ({ formData, setFormData }) => {
               />
             </div>
 
-            {targetedElement.type !== "SUBMIT" && (
+            {targetedElementInfo.type !== "SUBMIT" && (
               <div className="mb-3">
                 <label>Is required</label>
                 <br />
@@ -155,21 +176,30 @@ const OffCanvas = ({ formData, setFormData }) => {
                 No
               </div>
             )}
+
             {(targetedElementInfo.type === "SELECT" ||
               targetedElementInfo.type === "RADIO" ||
               targetedElementInfo.type === "CHECK") && (
               <div className="mb-3">
-                <label className="mb-2 ">Options</label><br></br>
+                <label className="mb-2">Options</label>
+                <br></br>
                 {targetedElementInfo.options.map((option, index) => (
-                  <div key={index} className="mb-2">
+                  <div key={index} className="mb-2 d-flex align-items-center">
                     <input
                       type="text"
                       name={option.value}
                       value={option.label}
                       onChange={(e) => handleOptionsChange(index, e)}
-                      className="form-control"
+                      className="form-control me-2"
                       placeholder={`Option ${index + 1}`}
                     />
+                    <button
+                      type="button"
+                      className="btn btn-danger btn-sm"
+                      onClick={() => handleOptionRemove(index)}
+                    >
+                      x
+                    </button>
                   </div>
                 ))}
                 <button
