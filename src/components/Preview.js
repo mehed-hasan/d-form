@@ -5,7 +5,7 @@ const Preview = () => {
   const formData = JSON.parse(localStorage.getItem("formData") || "[]");
 
   return (
-    <form className="w-100 p-5 shadow rounded">
+    <form className="w-75 p-5 shadow rounded mx-auto">
       {formData.map((row, rowIndex) => (
         <div key={rowIndex} className="row mb-3">
           {row.cols.map((col, colIndex) => (

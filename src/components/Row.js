@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Column from "./Column";
 import { useDrop } from "react-dnd";
 
@@ -24,7 +24,7 @@ const Row = ({
   }, [columns]);
 
   const [{ isOver }, drop] = useDrop({
-    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT","RADIO","CHECK"],
+    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT", "RADIO", "CHECK"],
     drop: (item, monitor) => {
       const clientOffset = monitor.getClientOffset();
       if (clientOffset && rowRef.current) {
@@ -43,20 +43,27 @@ const Row = ({
   });
 
   const handleDrop = (item, index) => {
-
-    const newColumns = [...columns];
-    newColumns[index] = {
-      ...newColumns[index],
-      elementInfo: {
-        id: `r${rowIndex}c${index}`,
-        type: item.type,
-        label: item.label || "My Label",
-        isRequired: item.isRequired || false,
-      },
-    };
+    // Preserve the existing column data and merge the new item
+    const newColumns = columns.map((col, colIndex) => {
+      if (colIndex === index) {
+        return {
+          ...col,
+          elementInfo: {
+            ...col.elementInfo,
+            id: `r${rowIndex}c${index}`,
+            type: item.type,
+            label: item.label || "My Label",
+            isRequired: item.isRequired || false,
+            options: item.options || col.elementInfo.options || [], // Preserve existing options
+          },
+        };
+      }
+      return col;
+    });
 
     onUpdateColumns(rowIndex, newColumns);
 
+    // Update formData with new column data
     const updatedFormData = formData.map((data) =>
       data.rowName === rowIndex
         ? {
@@ -67,7 +74,6 @@ const Row = ({
     );
 
     onUpdateFormData(updatedFormData);
-    console.log("Updated formData in Row:", updatedFormData);
   };
 
   const updateColumnWidths = (newColumns) => {
@@ -153,12 +159,30 @@ const Row = ({
       ...columns,
       {
         colName: columns.length,
-        elementInfo: { type: "Empty", label: "", isRequired: false },
+        elementInfo: {
+          type: "Empty",
+          label: "",
+          isRequired: false,
+          options: [], // Initialize options for new columns
+        },
         colWidth: "0%",
       },
     ];
+
     const updatedColumns = updateColumnWidths(newColumns);
     onUpdateColumns(rowIndex, updatedColumns);
+
+    // Ensure new column is reflected in formData
+    const updatedFormData = formData.map((data) =>
+      data.rowName === rowIndex
+        ? {
+            ...data,
+            cols: updatedColumns,
+          }
+        : data
+    );
+
+    onUpdateFormData(updatedFormData);
   };
 
   const handleRemoveColumn = () => {
@@ -167,6 +191,18 @@ const Row = ({
     const newColumns = columns.slice(0, -1);
     const updatedColumns = updateColumnWidths(newColumns);
     onUpdateColumns(rowIndex, updatedColumns);
+
+    // Ensure column removal is reflected in formData
+    const updatedFormData = formData.map((data) =>
+      data.rowName === rowIndex
+        ? {
+            ...data,
+            cols: updatedColumns,
+          }
+        : data
+    );
+
+    onUpdateFormData(updatedFormData);
   };
 
   const handleRemoveRow = () => {
@@ -181,7 +217,6 @@ const Row = ({
         drop(node);
       }}
       style={{
-        // border: isOver ? "1px solid green" : "none",
         position: "relative",
         display: "flex",
         alignItems: "stretch",
