@@ -24,7 +24,7 @@ const Row = ({
   }, [columns]);
 
   const [{ isOver }, drop] = useDrop({
-    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT", "RADIO", "CHECK"],
+    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT", "RADIO", "CHECK","SUBMIT"],
     drop: (item, monitor) => {
       const clientOffset = monitor.getClientOffset();
       if (clientOffset && rowRef.current) {
@@ -248,18 +248,18 @@ const Row = ({
         <div className="d-flex justify-content-center align-items-center mb-2">
           <button
             className="btn btn-secondary mx-2"
-            onClick={handleAddColumn}
-            disabled={columns.length >= 12}
-          >
-            +
-          </button>
-          <span className="mx-2">Col - {columns.length}</span>
-          <button
-            className="btn btn-secondary mx-2"
             onClick={handleRemoveColumn}
             disabled={columns.length <= 1}
           >
             -
+          </button>
+          <span className="mx-2">Col - {columns.length}</span>
+          <button
+            className="btn btn-secondary mx-2"
+            onClick={handleAddColumn}
+            disabled={columns.length >= 12}
+          >
+            +
           </button>
         </div>
         <button className="btn btn-secondary w-100" onClick={handleRemoveRow}>

@@ -21,33 +21,15 @@ export const TargetedContext = createContext({
 
 const App = () => {
   const [targetedElement, setTargetedElement] = useState(null);
+  const mySave = () =>{
+
+  }
   return (
     <TargetedContext.Provider value={{ targetedElement, setTargetedElement }}>
       <Router>
-
         <DndProvider backend={HTML5Backend}>
           <div className="container-fluid mt-3 w-75">
-            <nav className="mb-4 w-100 mx-auto alert alert-dark">
-              <div style={{ width: "fit-content" }} className="d-flex mx-auto">
-                <h3 className="me-3">Form Builder</h3>
-                <NavLink
-                  to="/"
-                  className={({ isActive }) =>
-                    isActive ? "btn btn-dark mx-2" : "btn btn-secondary mx-2"
-                  }
-                >
-                  Builder
-                </NavLink>
-                <NavLink
-                  to="/preview"
-                  className={({ isActive }) =>
-                    isActive ? "btn btn-dark mx-2" : "btn btn-secondary mx-2"
-                  }
-                >
-                  Preview
-                </NavLink>
-              </div>
-            </nav>
+
             <Routes>
               <Route path="/" element={<FormBuilder />} />
               <Route path="/preview" element={<Preview />} />

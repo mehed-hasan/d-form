@@ -1,6 +1,6 @@
 // src/components/FormBuilder.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Row from "./Row";
 import DraggableButton from "./DraggableButton";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,10 +8,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 // Import Bootstrap's JavaScript
 import OffCanvas from "./OffCanvas";
+import { Link, useNavigate } from "react-router-dom";
 
 const FormBuilder = () => {
   // Initialize toast notifications
-
+  const navigate = useNavigate(); // Hook for programmatic navigation
   const [formData, setFormData] = useState(() => {
     const savedData = localStorage.getItem("formData");
     return savedData
@@ -90,6 +91,7 @@ const FormBuilder = () => {
       localStorage.setItem("formData", JSON.stringify(formData));
       toast.success("Data saved successfully!");
       console.log("Data saved to localStorage:", formData);
+      navigate("/preview"); // Navigate to the preview page if save is successful
     } catch (error) {
       toast.error("Error saving data!");
       console.error("Error saving data:", error);
@@ -98,12 +100,20 @@ const FormBuilder = () => {
 
   return (
     <div className=" mt-3 shadow p-3">
+      <nav className="w-100 mx-auto alert alert-dark">
+        <div style={{ width: "fit-content" }} className="d-flex mx-auto gap-3">
+          <h3 className="me-3">Form Builder</h3>
+          <button className=" btn btn-secondary " onClick={saveData}>
+            Save & Preview
+          </button>
+        </div>
+      </nav>
       <OffCanvas setFormData={setFormData} formData={formData} />
       <div className="row">
         <div className="col-md-2 ">
           <div className="d-flex flex-column align-items-start">
             <button
-              className="btn btn-outline-secondary mb-3 d-flex gap-2 align-items-center w-100 justify-content-center"
+              className="btn btn-secondary mb-3 d-flex gap-2 align-items-center w-100 justify-content-center"
               onClick={addRow}
             >
               <svg
@@ -165,6 +175,13 @@ const FormBuilder = () => {
                 type="CHECK"
                 label="Check Box"
               />
+              <DraggableButton
+                svg={`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-menu-button-wide-fill" viewBox="0 0 16 16">
+  <path d="M1.5 0A1.5 1.5 0 0 0 0 1.5v2A1.5 1.5 0 0 0 1.5 5h13A1.5 1.5 0 0 0 16 3.5v-2A1.5 1.5 0 0 0 14.5 0zm1 2h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1m9.927.427A.25.25 0 0 1 12.604 2h.792a.25.25 0 0 1 .177.427l-.396.396a.25.25 0 0 1-.354 0zM0 8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm1 3v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2zm14-1V8a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v2zM2 8.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5"/>
+</svg>`}
+                type="SUBMIT"
+                label="Submit Button"
+              />
             </div>
           </div>
         </div>
@@ -180,13 +197,6 @@ const FormBuilder = () => {
               onRemoveRow={removeRow}
             />
           ))}
-
-          <button
-            className="rounded-0 mt-4 btn btn-secondary w-100 mb-3"
-            onClick={saveData}
-          >
-            Save Data
-          </button>
         </div>
       </div>
     </div>

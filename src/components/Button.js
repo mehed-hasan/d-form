@@ -1,12 +1,10 @@
 import React, { useContext } from "react";
 import useDraggable from "../hooks/useDraggable";
-import { IdContext, TargetedContext } from "../App"; // Correct import path
+import { TargetedContext } from "../App"; // Correct import path
 
-
-const Input = ({ elementInfo }) => {
-  const { setTargetedElement } = useContext(TargetedContext);
-
-  const { ref, isDragging } = useDraggable("INPUT");
+const Button = ({ elementInfo }) => {
+  const { targetedElement, setTargetedElement } = useContext(TargetedContext);
+  const { ref, isDragging } = useDraggable("SUBMIT");
 
   return (
     <div
@@ -22,7 +20,7 @@ const Input = ({ elementInfo }) => {
       }}
     >
       <label className="form-label d-flex justify-content-between">
-        <span>{elementInfo.label} </span>
+        <span>Button </span>
         <div className="d-flex gap-2">
           <button
             onClick={() =>
@@ -65,9 +63,9 @@ const Input = ({ elementInfo }) => {
           </button>
         </div>
       </label>
-      <input type="text" className="form-control" placeholder="Type here..." />
+      <button className="w-100 btn btn-dark" type="submit">{elementInfo.label} </button>
     </div>
   );
 };
 
-export default Input;
+export default Button;

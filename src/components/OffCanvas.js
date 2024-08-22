@@ -96,6 +96,8 @@ const OffCanvas = ({ formData, setFormData }) => {
       }));
       setFormData(updatedFormData);
       setTargetedElement(null); // Clear the targeted element
+      const btnClose = document.querySelector(".btn-close");
+      btnClose.click();
     }
   };
 
@@ -105,7 +107,7 @@ const OffCanvas = ({ formData, setFormData }) => {
       tabIndex="-1"
       id="offcanvasRight"
       aria-labelledby="offcanvasRightLabel"
-      data-bs-backdrop="false"
+      data-bs-backdrop="true"
     >
       <div className="offcanvas-header">
         <h5 id="offcanvasRightLabel">Edit Form Elements</h5>
@@ -129,33 +131,35 @@ const OffCanvas = ({ formData, setFormData }) => {
                 type="text"
               />
             </div>
-            <div className="mb-3">
-              <label>Is required</label>
-              <br />
-              <input
-                type="radio"
-                name="isRequired"
-                value="yes"
-                checked={targetedElementInfo.isRequired === true}
-                onChange={handleIsRequiredChange}
-              />{" "}
-              Yes
-              <input
-                type="radio"
-                name="isRequired"
-                value="no"
-                className="ms-2"
-                checked={targetedElementInfo.isRequired === false}
-                onChange={handleIsRequiredChange}
-              />{" "}
-              No
-            </div>
+
+            {targetedElement.type !== "SUBMIT" && (
+              <div className="mb-3">
+                <label>Is required</label>
+                <br />
+                <input
+                  type="radio"
+                  name="isRequired"
+                  value="yes"
+                  checked={targetedElementInfo.isRequired === true}
+                  onChange={handleIsRequiredChange}
+                />{" "}
+                Yes
+                <input
+                  type="radio"
+                  name="isRequired"
+                  value="no"
+                  className="ms-2"
+                  checked={targetedElementInfo.isRequired === false}
+                  onChange={handleIsRequiredChange}
+                />{" "}
+                No
+              </div>
+            )}
             {(targetedElementInfo.type === "SELECT" ||
               targetedElementInfo.type === "RADIO" ||
-              targetedElementInfo.type === "CHECK"
-            ) && (
+              targetedElementInfo.type === "CHECK") && (
               <div className="mb-3">
-                <label className="mb-2">Options</label>
+                <label className="mb-2 ">Options</label><br></br>
                 {targetedElementInfo.options.map((option, index) => (
                   <div key={index} className="mb-2">
                     <input
@@ -193,7 +197,6 @@ const OffCanvas = ({ formData, setFormData }) => {
                 </button>
               </div>
             )}
-     
           </>
         )}
         {actionType === "delete" && (

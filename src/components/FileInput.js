@@ -10,10 +10,10 @@ const FileInput = ({ elementInfo }) => {
     <div
       id={elementInfo.id}
       className="w-100 element"
-      ref={ref}
+      // ref={ref}
       style={{
         opacity: isDragging ? 0.5 : 1,
-        cursor: "move",
+        // cursor: "move",
         padding: "8px",
         backgroundColor: "lightgrey",
         borderRadius: "4px",

@@ -6,10 +6,11 @@ import FileInput from "./FileInput";
 import SelectBox from "./SelectBox";
 import RadioButton from "./RadioButton";
 import CheckBox from "./CheckBox"; // Import CheckBox
+import Button from "./Button"; // Import CheckBox
 
 const Column = ({ index, elementInfo, onDrop }) => {
   const [{ isOver }, drop] = useDrop({
-    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT", "RADIO", "CHECK"],
+    accept: ["INPUT", "TEXTAREA", "FILE", "SELECT", "RADIO", "CHECK","SUBMIT"],
     drop: (item) => onDrop(item, index),
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -30,6 +31,8 @@ const Column = ({ index, elementInfo, onDrop }) => {
         return <RadioButton elementInfo={elementInfo} />;
       case "CHECK":
         return <CheckBox elementInfo={elementInfo} />; // Render CheckBox
+      case "SUBMIT":
+        return <Button elementInfo={elementInfo} />; // Render CheckBox
       default:
         return <div className="text-center text-muted">Drop here</div>;
     }
