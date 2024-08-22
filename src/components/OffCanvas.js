@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
 import { TargetedContext } from "../App"; // Correct import path
-import { Offcanvas } from "bootstrap"; // Import Offcanvas from Bootstrap
 
 const OffCanvas = ({ formData, setFormData }) => {
   const { targetedElement, setTargetedElement } = useContext(TargetedContext);
@@ -8,53 +7,42 @@ const OffCanvas = ({ formData, setFormData }) => {
   const actionType = targetedElement?.action;
   const targetedElementInfo = targetedElement?.elementInfo;
 
-  // Handle label change
   const handleLabelChange = (event) => {
     const newLabel = event.target.value;
 
     if (actionType === "edit" && targetedElementInfo) {
       const updatedElement = { ...targetedElementInfo, label: newLabel };
-
-      const updatedFormData = formData.map((row) => {
-        return {
-          ...row,
-          cols: row.cols.map((col) =>
-            col.elementInfo?.id === targetedElementInfo.id
-              ? { ...col, elementInfo: updatedElement }
-              : col
-          ),
-        };
-      });
-
+      const updatedFormData = formData.map((row) => ({
+        ...row,
+        cols: row.cols.map((col) =>
+          col.elementInfo?.id === targetedElementInfo.id
+            ? { ...col, elementInfo: updatedElement }
+            : col
+        ),
+      }));
       setFormData(updatedFormData);
       setTargetedElement({ elementInfo: updatedElement, action: "edit" });
     }
   };
 
-  // Handle "isRequired" radio button change
   const handleIsRequiredChange = (event) => {
     const isRequired = event.target.value === "yes";
 
     if (actionType === "edit" && targetedElementInfo) {
       const updatedElement = { ...targetedElementInfo, isRequired };
-
-      const updatedFormData = formData.map((row) => {
-        return {
-          ...row,
-          cols: row.cols.map((col) =>
-            col.elementInfo?.id === targetedElementInfo.id
-              ? { ...col, elementInfo: updatedElement }
-              : col
-          ),
-        };
-      });
-
+      const updatedFormData = formData.map((row) => ({
+        ...row,
+        cols: row.cols.map((col) =>
+          col.elementInfo?.id === targetedElementInfo.id
+            ? { ...col, elementInfo: updatedElement }
+            : col
+        ),
+      }));
       setFormData(updatedFormData);
       setTargetedElement({ elementInfo: updatedElement, action: "edit" });
     }
   };
 
-  // Handle "options" and "default" changes
   const handleOptionsChange = (index, event) => {
     const { name, value, type, checked } = event.target;
 
@@ -63,73 +51,51 @@ const OffCanvas = ({ formData, setFormData }) => {
 
       if (
         targetedElementInfo.type === "SELECT" ||
-        targetedElementInfo.type === "RADIO"
+        targetedElementInfo.type === "RADIO"  ||
+        targetedElementInfo.type === "CHECK"
       ) {
         const newOptions = targetedElementInfo.options.map((opt, i) =>
           i === index ? { ...opt, label: value } : opt
         );
-        updatedElement = {
-          ...targetedElementInfo,
-          options: newOptions,
-        };
-      } else if (targetedElementInfo.type === "CHECKBOX") {
-        updatedElement = {
-          ...targetedElementInfo,
-          default: checked
-            ? [...(targetedElementInfo.default || []), name]
-            : (targetedElementInfo.default || []).filter((val) => val !== name),
-        };
-      }
+        updatedElement = { ...targetedElementInfo, options: newOptions };
+      } 
 
-      const updatedFormData = formData.map((row) => {
-        return {
-          ...row,
-          cols: row.cols.map((col) =>
-            col.elementInfo?.id === targetedElementInfo.id
-              ? { ...col, elementInfo: updatedElement }
-              : col
-          ),
-        };
-      });
+      const updatedFormData = formData.map((row) => ({
+        ...row,
+        cols: row.cols.map((col) =>
+          col.elementInfo?.id === targetedElementInfo.id
+            ? { ...col, elementInfo: updatedElement }
+            : col
+        ),
+      }));
 
       setFormData(updatedFormData);
       setTargetedElement({ elementInfo: updatedElement, action: "edit" });
     }
   };
 
-  // Handle deletion of a single element
   const handleDelete = () => {
     if (actionType === "delete" && targetedElementInfo) {
-      const updatedFormData = formData.map((row) => {
-        return {
-          ...row,
-          cols: row.cols.map((col) =>
-            col.elementInfo?.id === targetedElementInfo.id
-              ? {
-                  ...col,
-                  elementInfo: {
-                    type: "EMPTY",
-                    label: "",
-                    isRequired: false,
-                    id: col.elementInfo.id, // Preserve the ID
-                    options: [], // Clear options
-                    default: [], // Clear default values
-                  },
-                }
-              : col
-          ),
-        };
-      });
-
+      const updatedFormData = formData.map((row) => ({
+        ...row,
+        cols: row.cols.map((col) =>
+          col.elementInfo?.id === targetedElementInfo.id
+            ? {
+                ...col,
+                elementInfo: {
+                  type: "EMPTY",
+                  label: "",
+                  isRequired: false,
+                  id: col.elementInfo.id,
+                  options: [],
+                  default: [],
+                },
+              }
+            : col
+        ),
+      }));
       setFormData(updatedFormData);
       setTargetedElement(null); // Clear the targeted element
-
-      // Close the offcanvas
-      const offcanvasElement = document.getElementById("offcanvasRight");
-      const offcanvas = Offcanvas.getInstance(offcanvasElement);
-      if (offcanvas) {
-        offcanvas.hide();
-      }
     }
   };
 
@@ -139,6 +105,7 @@ const OffCanvas = ({ formData, setFormData }) => {
       tabIndex="-1"
       id="offcanvasRight"
       aria-labelledby="offcanvasRightLabel"
+      data-bs-backdrop="false"
     >
       <div className="offcanvas-header">
         <h5 id="offcanvasRightLabel">Edit Form Elements</h5>
@@ -147,7 +114,7 @@ const OffCanvas = ({ formData, setFormData }) => {
           className="btn-close text-reset"
           data-bs-dismiss="offcanvas"
           aria-label="Close"
-          onClick={() => setTargetedElement(null)} // Clear targeted element on close
+          onClick={() => setTargetedElement(null)}
         ></button>
       </div>
       <div className="offcanvas-body">
@@ -183,9 +150,12 @@ const OffCanvas = ({ formData, setFormData }) => {
               />{" "}
               No
             </div>
-            {targetedElementInfo.type === "SELECT" && (
+            {(targetedElementInfo.type === "SELECT" ||
+              targetedElementInfo.type === "RADIO" ||
+              targetedElementInfo.type === "CHECK"
+            ) && (
               <div className="mb-3">
-                <label>Options</label>
+                <label className="mb-2">Options</label>
                 {targetedElementInfo.options.map((option, index) => (
                   <div key={index} className="mb-2">
                     <input
@@ -209,7 +179,7 @@ const OffCanvas = ({ formData, setFormData }) => {
                         options: [
                           ...targetedElementInfo.options,
                           {
-                            value: `opt${
+                            value: `${targetedElementInfo.type.toLowerCase()}${
                               targetedElementInfo.options.length + 1
                             }`,
                             label: "",
@@ -223,87 +193,7 @@ const OffCanvas = ({ formData, setFormData }) => {
                 </button>
               </div>
             )}
-            {targetedElementInfo.type === "RADIO" && (
-              <div className="mb-3">
-                <label>Options</label>
-                {targetedElementInfo.options.map((option, index) => (
-                  <div key={index} className="mb-2">
-                    <input
-                      type="text"
-                      name={option.value}
-                      value={option.label}
-                      onChange={(e) => handleOptionsChange(index, e)}
-                      className="form-control"
-                      placeholder={`Option ${index + 1}`}
-                    />
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  className="btn btn-secondary mt-2"
-                  onClick={() =>
-                    setTargetedElement({
-                      ...targetedElement,
-                      elementInfo: {
-                        ...targetedElementInfo,
-                        options: [
-                          ...targetedElementInfo.options,
-                          {
-                            value: `opt${
-                              targetedElementInfo.options.length + 1
-                            }`,
-                            label: "",
-                          },
-                        ],
-                      },
-                    })
-                  }
-                >
-                  Add Option
-                </button>
-              </div>
-            )}
-            {targetedElementInfo.type === "CHECKBOX" && (
-              <div className="mb-3">
-                <label>Options</label>
-                {targetedElementInfo.options.map((option, index) => (
-                  <div key={index} className="mb-2">
-                    <input
-                      type="checkbox"
-                      name={option.value}
-                      checked={targetedElementInfo.default.includes(
-                        option.value
-                      )}
-                      onChange={(e) => handleOptionsChange(index, e)}
-                    />{" "}
-                    {option.label}
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  className="btn btn-secondary mt-2"
-                  onClick={() =>
-                    setTargetedElement({
-                      ...targetedElement,
-                      elementInfo: {
-                        ...targetedElementInfo,
-                        options: [
-                          ...targetedElementInfo.options,
-                          {
-                            value: `chk${
-                              targetedElementInfo.options.length + 1
-                            }`,
-                            label: "",
-                          },
-                        ],
-                      },
-                    })
-                  }
-                >
-                  Add Option
-                </button>
-              </div>
-            )}
+     
           </>
         )}
         {actionType === "delete" && (

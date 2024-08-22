@@ -1,5 +1,4 @@
 import React from "react";
-import RadioButton from "./RadioButton";
 
 const Preview = () => {
   const formData = JSON.parse(localStorage.getItem("formData") || "[]");
@@ -18,12 +17,12 @@ const Preview = () => {
               {col.elementInfo.type === "INPUT" && (
                 <>
                   <label className="form-label">{col.elementInfo.label}</label>
-
                   <input
                     type="text"
                     placeholder={col.elementInfo.label}
                     required={col.elementInfo.isRequired}
                     className="w-100 form-control"
+                    defaultValue={col.elementInfo.default || ""}
                   />
                 </>
               )}
@@ -32,11 +31,11 @@ const Preview = () => {
               {col.elementInfo.type === "TEXTAREA" && (
                 <>
                   <label className="form-label">{col.elementInfo.label}</label>
-
                   <textarea
                     placeholder={col.elementInfo.label}
                     required={col.elementInfo.isRequired}
                     className="w-100 form-control"
+                    defaultValue={col.elementInfo.default || ""}
                   />
                 </>
               )}
@@ -45,7 +44,6 @@ const Preview = () => {
               {col.elementInfo.type === "FILE" && (
                 <>
                   <label className="form-label">{col.elementInfo.label}</label>
-
                   <input
                     className="w-100 form-control"
                     type="file"
@@ -61,6 +59,7 @@ const Preview = () => {
                   <select
                     required={col.elementInfo.isRequired}
                     className="w-100 form-control"
+                    defaultValue={col.elementInfo.default || ""}
                   >
                     {col.elementInfo.options &&
                     Array.isArray(col.elementInfo.options) ? (
@@ -80,12 +79,71 @@ const Preview = () => {
               {col.elementInfo.type === "RADIO" && (
                 <>
                   <label className="form-label">{col.elementInfo.label}</label>
-                  <input type="radio"
-                    name={col.elementInfo.name} // Pass the radio group name
-                    options={col.elementInfo.options || []}
-                    value={col.elementInfo.selectedValue} // Pass the selected value
-                    onChange={(e) => console.log(e.target.value)} // Handle the change event
-                  />
+                  <div className="d-flex flex-wrap">
+                    {col.elementInfo.options &&
+                    Array.isArray(col.elementInfo.options) ? (
+                      col.elementInfo.options.map((option, optionIndex) => (
+                        <div
+                          key={optionIndex}
+                          className="form-check d-flex gap-2 flex-wrap"
+                        >
+                          <input
+                            type="radio"
+                            id={`${col.elementInfo.id}-option-${optionIndex}`}
+                            name={col.elementInfo.id} // Unique radio group name
+                            value={option.value}
+                            defaultChecked={
+                              option.value === col.elementInfo.default
+                            } // Default selected value
+                            className="form-check-input"
+                          />
+                          <label
+                            htmlFor={`${col.elementInfo.id}-option-${optionIndex}`}
+                            className="form-check-label me-2"
+                          >
+                            {option.label}
+                          </label>
+                        </div>
+                      ))
+                    ) : (
+                      <div>No options available</div>
+                    )}
+                  </div>
+                </>
+              )}
+
+              {/* Render CHECKBOX type */}
+              {col.elementInfo.type === "CHECK" && (
+                <>
+                  <label className="form-label">{col.elementInfo.label}</label>
+                  <div className="d-flex flex-wrap">
+                    {col.elementInfo.options &&
+                    Array.isArray(col.elementInfo.options) ? (
+                      col.elementInfo.options.map((option, optionIndex) => (
+                        <div
+                          key={optionIndex}
+                          className="form-check d-flex gap-2 flex-wrap"
+                        >
+                          <input
+                            type="checkbox"
+                            id={`${col.elementInfo.id}-option-${optionIndex}`}
+                            name={col.elementInfo.id} // Unique checkbox group name
+                            value={option.value}
+                            defaultChecked={option.default === option.value} // Default checked value
+                            className="form-check-input"
+                          />
+                          <label
+                            htmlFor={`${col.elementInfo.id}-option-${optionIndex}`}
+                            className="form-check-label me-2"
+                          >
+                            {option.label}
+                          </label>
+                        </div>
+                      ))
+                    ) : (
+                      <div>No options available</div>
+                    )}
+                  </div>
                 </>
               )}
             </div>
